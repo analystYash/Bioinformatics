@@ -1,0 +1,63 @@
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# Create Genomic Dataset
+data = pd.DataFrame({
+    "GeneFeature1": [2.5, 1.2, 3.1, 0.9, 2.8, 1.0, 3.2, 0.8, 2.9, 1.1],
+    "GeneFeature2": [3.0, 0.8, 3.5, 1.1, 2.9, 0.7, 3.8, 1.0, 3.1, 0.9],
+    "Class": [
+        "Healthy", "Disease", "Healthy", "Disease", "Healthy",
+        "Disease", "Healthy", "Disease", "Healthy", "Disease"
+    ]
+})
+
+# Save Dataset as CSV
+data.to_csv("genomic_data.csv", index=False)
+
+# Read Dataset
+data = pd.read_csv("genomic_data.csv")
+
+print("Genomic Dataset\n")
+print(data)
+
+# Features
+X = data[["GeneFeature1", "GeneFeature2"]]
+
+# Target
+y = data["Class"]
+
+# Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.3,
+    random_state=1,
+    stratify=y
+)
+
+# Create Model
+model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=1
+)
+
+# Train Model
+model.fit(X_train, y_train)
+
+# Prediction
+prediction = model.predict(X_test)
+
+print("\nActual Class")
+print(y_test.values)
+
+print("\nPredicted Class")
+print(prediction)
+
+# Accuracy
+accuracy = accuracy_score(y_test, prediction)
+
+print("\nAccuracy:", round(accuracy * 100, 2), "%")
+
