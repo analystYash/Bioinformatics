@@ -1,0 +1,16 @@
+
+seq = input("Enter the Protein Sequence: ").upper()
+
+print("\nProtein Sequence:", seq)
+
+amino = "ACDEFGHIKLMNPQRSTVWY"
+
+for aa in amino:
+    count = seq.count(aa)
+
+    if count > 0:
+        print(aa, ":", count)
+
+wt = len(seq) * 110
+
+print("Total Weight is:", wt, "Dalton")
